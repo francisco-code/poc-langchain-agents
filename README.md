@@ -16,15 +16,19 @@ Este projeto demonstra os conceitos básicos do LangChain, incluindo:
 ```
 poc-langchain/
 │
-├── fundamentos.py              # Exemplo básico com ChatGoogleGenerativeAI
-├── init-chat-model.py          # Inicialização simplificada de chat models
-├── prompt-template.py          # Uso de PromptTemplate básico
-├── chat-prompt-template.py     # ChatPromptTemplate com system/user messages
+├── fundamentos/                        # 📁 Conceitos básicos do LangChain
+│   ├── fundamentos.py                  # Exemplo básico com ChatGoogleGenerativeAI
+│   ├── init-chat-model.py              # Inicialização simplificada de chat models
+│   ├── prompt-template.py              # Uso de PromptTemplate básico
+│   └── chat-prompt-template.py         # ChatPromptTemplate com system/user messages
 │
-├── .env                        # Variáveis de ambiente (credenciais)
-├── .gitignore                  # Arquivos ignorados pelo Git
-├── requirements.txt            # Dependências do projeto
-└── README.md                   # Este arquivo
+├── chains-e-processamento/             # 📁 Chains e processamento de dados
+│   └── init-chains.py                  # Introdução a Chains (pipe operator)
+│
+├── .env                                # Variáveis de ambiente (credenciais)
+├── .gitignore                          # Arquivos ignorados pelo Git
+├── requirements.txt                    # Dependências do projeto
+└── README.md                           # Este arquivo
 ```
 
 ## 🚀 Começando
@@ -81,14 +85,16 @@ OPENAI_API_KEY=sua_chave_openai_aqui
 
 ## 📚 Exemplos de Uso
 
-### 1. Fundamentos - Chatbot Básico com Gemini
+### 📁 Fundamentos
 
-**Arquivo:** `fundamentos.py`
+#### 1. Fundamentos - Chatbot Básico com Gemini
+
+**Arquivo:** `fundamentos/fundamentos.py`
 
 Exemplo básico de como usar o `ChatGoogleGenerativeAI` com validação de API key:
 
 ```bash
-python fundamentos.py
+python fundamentos/fundamentos.py
 ```
 
 **Demonstra:**
@@ -99,14 +105,14 @@ python fundamentos.py
 
 ---
 
-### 2. Init Chat Model - Inicialização Simplificada
+#### 2. Init Chat Model - Inicialização Simplificada
 
-**Arquivo:** `init-chat-model.py`
+**Arquivo:** `fundamentos/init-chat-model.py`
 
 Forma mais simples de inicializar um modelo de chat usando `init_chat_model`:
 
 ```bash
-python init-chat-model.py
+python fundamentos/init-chat-model.py
 ```
 
 **Demonstra:**
@@ -115,14 +121,14 @@ python init-chat-model.py
 
 ---
 
-### 3. Prompt Template - Templates Básicos
+#### 3. Prompt Template - Templates Básicos
 
-**Arquivo:** `prompt-template.py`
+**Arquivo:** `fundamentos/prompt-template.py`
 
 Como usar `PromptTemplate` para criar prompts parametrizados:
 
 ```bash
-python prompt-template.py
+python fundamentos/prompt-template.py
 ```
 
 **Demonstra:**
@@ -132,14 +138,14 @@ python prompt-template.py
 
 ---
 
-### 4. Chat Prompt Template - Conversas Estruturadas
+#### 4. Chat Prompt Template - Conversas Estruturadas
 
-**Arquivo:** `chat-prompt-template.py`
+**Arquivo:** `fundamentos/chat-prompt-template.py`
 
 Como usar `ChatPromptTemplate` para criar conversas com system/user messages:
 
 ```bash
-python chat-prompt-template.py
+python fundamentos/chat-prompt-template.py
 ```
 
 **Demonstra:**
@@ -147,6 +153,26 @@ python chat-prompt-template.py
 - User prompts (perguntas do usuário)
 - Templates de chat estruturados
 - Integração completa com modelo Gemini
+
+---
+
+### 📁 Chains e Processamento
+
+#### 5. Init Chains - Introdução a Chains
+
+**Arquivo:** `chains-e-processamento/init-chains.py`
+
+Introdução ao conceito de **Chains** usando o operador pipe (`|`) do LangChain:
+
+```bash
+python chains-e-processamento/init-chains.py
+```
+
+**Demonstra:**
+- Encadeamento de componentes com pipe operator (`|`)
+- Combinação de PromptTemplate + ChatModel em uma Chain
+- Processamento sequencial de dados
+- Sintaxe moderna do LangChain (LCEL - LangChain Expression Language)
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -198,6 +224,34 @@ chat_prompt = ChatPromptTemplate([
     ("user", "{question}")
 ])
 ```
+
+### Chains (LCEL)
+
+Chains permitem encadear múltiplos componentes usando o operador pipe (`|`):
+
+```python
+from langchain_core.prompts import PromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+template = PromptTemplate(
+    input_variables=["name"],
+    template="What do you know about {name}?"
+)
+
+model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+
+# Criando uma chain com pipe operator
+chain = template | model
+
+# Executando a chain
+result = chain.invoke({"name": "Marie Curie"})
+```
+
+**Vantagens das Chains:**
+- ✅ Código mais limpo e legível
+- ✅ Composição de componentes reutilizáveis
+- ✅ Processamento sequencial automatizado
+- ✅ Suporte a operações assíncronas e streaming
 
 ## 🔒 Segurança
 
